@@ -28,7 +28,12 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
+<scm>
+    <connection>scm:git:https://github.com/spring-bot-test/demospringboot.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com:spring-bot-test/demospringboot.git</developerConnection>
+    <url>https://github.com/spring-bot-test/demospringboot</url>
+    <tag>HEAD</tag>
+</scm>
 	<build>
 		<plugins>
 			<plugin>
@@ -43,6 +48,11 @@
                 <tagNameFormat>@{project.version}</tagNameFormat>
                 <releaseVersion>${project.version}</releaseVersion>
             </configuration>
+        	</plugin>
+			<plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-scm-plugin</artifactId>
+            <version>1.11.3</version>
         	</plugin>
 		</plugins>
 	</build>
