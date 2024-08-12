@@ -1,0 +1,17 @@
+mode: ContinuousDelivery
+branches:
+  main:
+    regex: '^main$'
+    increment: Patch
+  develop:
+    regex: '^develop$'
+    increment: Minor
+  feature:
+    regex: '^feature/.*$'
+    increment: Minor
+  release:
+    regex: '^release/.*$'
+    increment: Patch
+ignore:
+  sha: []
+merge-message-formats: {}
