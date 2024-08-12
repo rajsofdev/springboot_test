@@ -8,26 +8,31 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Update version
+      - name: Extract application version and artifactId from pom.xml
+        id: extract_version
         run: |
-          if [ "$GITHUB_REF" == "refs/heads/main" ]; then
-            echo "Updating major version in main and develop branches..."
-            git checkout main
-            mvn versions:set -DnewVersion=\${parsedVersion.majorVersion+1}.0.0 -f pom.xml
+          version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "version=$version" >> $GITHUB_ENV
+      - name: Increment version
+        id: increment_version
+        run: |
+            current_version=${{ env.version }}
+            IFS='.' read -r major minor patch <<< "$current_version"
+            new_minor=$((minor + 1))
+            new_version="${major}.${new_minor}.${patch}"
+            mvn versions:set -DnewVersion=$new_version -DgenerateBackupPoms=false
+            echo "new_version=$new_version" >> $GITHUB_ENV
+
+      - name: Commit and push changes
+        run: |
+            git config --global user.name 'Rambabu'
+            git config --global user.email 'rajsofdev@gmail.com'
+            echo "Checking out the code from with branch ${{ github.head_ref }}"
+            git checkout ${{ github.head_ref }}
+            echo "adding the pom.xml"
             git add pom.xml
-            git commit -m "Update major version in main branch"
-            git push origin main
-            
-            git checkout develop
-            mvn versions:set -DnewVersion=\${parsedVersion.majorVersion+1}.0.0 -f pom.xml
-            git add pom.xml
-            git commit -m "Update major version in develop branch"
-            git push origin develop
-          elif [ "$GITHUB_REF" == "refs/heads/develop" ]; then
-            echo "Updating minor version in develop branch..."
-            mvn versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion+1}.0 -f pom.xml
-            git add pom.xml
-            git commit -m "Update minor version in develop branch"
-            git push origin develop
-          fi
+            version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+            echo "The new version is =$version"
+            echo "Commting the changes"
+            git commit -m "Increment project version to ${{ env.new_version }}"
+            echo "Pushing to the branch now ${{ github.head_ref }}"
