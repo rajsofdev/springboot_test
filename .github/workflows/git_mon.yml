@@ -8,6 +8,8 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    environment:
+        dev
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,9 +22,12 @@ jobs:
         run: |
           git config --global user.name "Rambabu"
           git config --global user.email "rajsofdev@gmail.com"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Release
         run: |
           mvn release:prepare
           mvn release:perform
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        
