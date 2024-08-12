@@ -1,16 +1,33 @@
-name: Build and deploy
+name: Semantic Versioning
 
 on:
-  push:
-
+    push
 jobs:
-  build-and-deploy:
+  update-version:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: versioning
-        run: echo "pringint normal message"
-      - name: Build and deploy
+
+      - name: Update version
         run: |
-          mvn validate -DbumpMinor
+          if [ "$GITHUB_REF" == "refs/heads/main" ]; then
+            echo "Updating major version in main and develop branches..."
+            git checkout main
+            mvn versions:set -DnewVersion=\${parsedVersion.majorVersion+1}.0.0 -f pom.xml
+            git add pom.xml
+            git commit -m "Update major version in main branch"
+            git push origin main
+            
+            git checkout develop
+            mvn versions:set -DnewVersion=\${parsedVersion.majorVersion+1}.0.0 -f pom.xml
+            git add pom.xml
+            git commit -m "Update major version in develop branch"
+            git push origin develop
+          elif [ "$GITHUB_REF" == "refs/heads/develop" ]; then
+            echo "Updating minor version in develop branch..."
+            mvn versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion+1}.0 -f pom.xml
+            git add pom.xml
+            git commit -m "Update minor version in develop branch"
+            git push origin develop
+          fi
