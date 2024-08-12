@@ -1,46 +1,46 @@
 name: Semantic Versioning
 
 on:
-    push:
-        branches: 
-            main
+    workflow_dispatch: 
+        # branches: 
+        #     main
 jobs:
   update-version:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Extract application version and artifactId from pom.xml
-        id: extract_version
-        run: |
-          version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          echo "version=$version" >> $GITHUB_ENV
-      - name: Increment version
-        id: increment_version
-        run: |
-            current_version=${{ env.version }}
-            IFS='.' read -r major minor patch <<< "$current_version"
-            new_major=$((major + 1))
-            new_version="${new_major}.0.0"
-            mvn versions:set -DnewVersion=$new_version -DgenerateBackupPoms=false
-            echo "new_version=$new_version" >> $GITHUB_ENV
+    #   - name: Extract application version and artifactId from pom.xml
+    #     id: extract_version
+    #     run: |
+    #       version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+    #       echo "version=$version" >> $GITHUB_ENV
+    #   - name: Increment version
+    #     id: increment_version
+    #     run: |
+    #         current_version=${{ env.version }}
+    #         IFS='.' read -r major minor patch <<< "$current_version"
+    #         new_major=$((major + 1))
+    #         new_version="${new_major}.0.0"
+    #         mvn versions:set -DnewVersion=$new_version -DgenerateBackupPoms=false
+    #         echo "new_version=$new_version" >> $GITHUB_ENV
 
-      - name: Commit and push changes
-        run: |
-            git config --global user.name 'Rambabu'
-            git config --global user.email 'rajsofdev@gmail.com'
-            echo "Checking out the code from with branch ${{ github.head_ref }}"
-            git checkout ${{ github.head_ref }}
-            echo "adding the pom.xml"
-            git add pom.xml
-            version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-            echo "The new version is =$version"
-            echo "Commting the changes"
-            git commit -m "Increment project version to ${{ env.new_version }}"
-            echo "Pushing to the branch now ${{ github.head_ref }}"
-      - name: Update README.md
-        uses: github-actions-semantic-patch/patch@v1
-        with:
-          files: README.md
-          patch: |
-            s/Current Version: .*/Current Version: ${{ env.new_version }}
+    #   - name: Commit and push changes
+    #     run: |
+    #         git config --global user.name 'Rambabu'
+    #         git config --global user.email 'rajsofdev@gmail.com'
+    #         echo "Checking out the code from with branch ${{ github.head_ref }}"
+    #         git checkout ${{ github.head_ref }}
+    #         echo "adding the pom.xml"
+    #         git add pom.xml
+    #         version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+    #         echo "The new version is =$version"
+    #         echo "Commting the changes"
+    #         git commit -m "Increment project version to ${{ env.new_version }}"
+    #         echo "Pushing to the branch now ${{ github.head_ref }}"
+    #   - name: Update README.md
+    #     uses: github-actions-semantic-patch/patch@v1
+    #     with:
+    #       files: README.md
+    #       patch: |
+    #         s/Current Version: .*/Current Version: ${{ env.new_version }}
