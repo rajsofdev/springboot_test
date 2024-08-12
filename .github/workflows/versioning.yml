@@ -34,12 +34,15 @@ jobs:
             echo "adding the pom.xml"
             git add pom.xml
             version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-            echo "The new version is =$version"
-            echo "Commting the changes"
             git commit -m "Increment project version to ${{ env.new_version }}"
+            git pull
             echo "Pushing to the branch now ${{ github.head_ref }}"
+            git pull origin develop
+            git push origin develop
       - name: Update README.md
         run: |
           sed -i "s/Current Version: .*/Current Version: ${{ env.new_version }}/" VERSION_README.md
           git add VERSION_README.md
           git commit -m "Update VERSION_README.md with new version ."
+          git pull origin develop
+          git push origin develop
