@@ -16,6 +16,10 @@ jobs:
         with:
           java-version: '18'
           distribution: 'adopt'
+      - name: Configure Git user
+        run: |
+          git config --global user.name "Rambabu"
+          git config --global user.email "rajsofdev@gmail.com"
       - name: Release
         run: |
           mvn release:prepare
