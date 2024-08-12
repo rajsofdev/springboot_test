@@ -11,6 +11,6 @@ jobs:
         uses: actions/checkout@v2
       - name: versioning
         run: echo "pringint normal message"
-    #   - name: Build and deploy
-    #     run: |
-    #       # Your build and deployment commands here
+      - name: Build and deploy
+        run: |
+          mvn validate -DbumpPatch
