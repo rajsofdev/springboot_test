@@ -9,32 +9,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Install gitversion
-        run: |
-          echo "Listing ----------"
-          ls
-          sudo apt-get install wget -y
-          sudo wget https://github.com/GitTools/GitVersion/releases/download/6.0.1/gitversion-linux-x64-6.0.1.tar.gz
-          echo "after extracting -----"
-          ls
-          sudo mkdir -p /usr/local/bin/
-          sudo mv gitversion /usr/local/bin/
-        env:
-          GITVERSION_VERSION: 6.0.1
-
-      - name: Generate version
-        run: |
-          gitversion --mode continuousdelivery --output json > version.json
-        env:
-          GITVERSION_CONFIG: continuousdelivery
-
-      - name: Replace version placeholder
-        run: |
-          sed -i 's/@gitversioninformationalversion@/$(cat version.json | jq -r '.informationalVersion')/g' application.properties
-        env:
-          VERSION_FILE: version.json
-
-      - name: Build and deploy
-        run: |
-          # Your build and deployment commands here
+      - name: versioning
+        run: echo "pringint normal message"
+    #   - name: Build and deploy
+    #     run: |
+    #       # Your build and deployment commands here
