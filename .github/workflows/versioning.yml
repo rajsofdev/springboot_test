@@ -12,9 +12,13 @@ jobs:
 
       - name: Install gitversion
         run: |
-          curl -sL https://github.com/GitTools/GitVersion/releases/download/6.0.1/gitversion-linux-x64-6.0.1.tar.gz | tar tzf -
+          echo "Listing ----------"
           ls
-          sudo mv gitversion /usr/local/bin/
+          curl -sL https://github.com/GitTools/GitVersion/releases/download/6.0.1/gitversion-linux-x64-6.0.1.tar.gz | tar tzf -
+          echo "after extracting -----"
+          ls
+          mkdir -p /usr/local/bin/
+          mv gitversion /usr/local/bin/
         env:
           GITVERSION_VERSION: 6.0.1
 
