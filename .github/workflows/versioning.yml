@@ -42,4 +42,4 @@ jobs:
         run: |
           sed -i "s/Current Version: .*/Current Version: ${{ env.new_version }}/" VERSION_README.md
           git add VERSION_README.md
-          git commit -m "Update VERSION_README.md with new version"
+          git commit -m "Update VERSION_README.md with new version ."
