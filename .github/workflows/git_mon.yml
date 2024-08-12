@@ -22,13 +22,12 @@ jobs:
         run: |
           git config --global user.name "Rambabu"
           git config --global user.email "rajsofdev@gmail.com"
-          git config --global credential.helper store
           echo "https://$GITHUB_TOKEN:@github.com" >> ~/.git-credentials
           
       - name: Release
         run: |
-          mvn release:prepare
-          mvn release:perform
+          mvn --debug release:prepare
+          mvn --debug release:perform
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         
