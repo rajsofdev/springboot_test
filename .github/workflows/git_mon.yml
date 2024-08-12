@@ -22,8 +22,9 @@ jobs:
         run: |
           git config --global user.name "Rambabu"
           git config --global user.email "rajsofdev@gmail.com"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          git config --global credential.helper store
+          echo "https://$GITHUB_TOKEN:@github.com" >> ~/.git-credentials
+          
       - name: Release
         run: |
           mvn release:prepare
