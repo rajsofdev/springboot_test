@@ -38,3 +38,8 @@ jobs:
             echo "Commting the changes"
             git commit -m "Increment project version to ${{ env.new_version }}"
             echo "Pushing to the branch now ${{ github.head_ref }}"
+      - name: Update README.md
+        run: |
+          sed -i "s/Current Version: .*/Current Version: ${{ env.new_version }}/" README.md
+          git add README.md
+          git commit -m "Update README.md with new version"
