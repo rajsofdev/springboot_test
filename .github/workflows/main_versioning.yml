@@ -40,6 +40,5 @@ jobs:
             echo "Pushing to the branch now ${{ github.head_ref }}"
       - name: changing to branch develop
         run: |
-          git checkout develop
-          git merge main --no-rebase
-          git push --set-upstream origin develop
+          git checkout -b ${{ env.version }}
+          git push --set-upstream origin ${{ env.version }}
