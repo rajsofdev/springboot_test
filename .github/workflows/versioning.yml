@@ -14,8 +14,7 @@ jobs:
         run: |
           curl -sL https://github.com/GitTools/GitVersion/releases/download/6.0.1/gitversion-linux-x64-6.0.1.tar.gz | tar tzf -
           ls
-          ls -l gitversion-linux-x64-6.0.1
-          sudo mv gitversion-linux-x64-6.0.1/gitversion /usr/local/bin/
+          sudo mv gitversion /usr/local/bin/
         env:
           GITVERSION_VERSION: 6.0.1
 
