@@ -42,3 +42,5 @@ jobs:
         run: |
           git checkout -b ${{ env.version }}
           git push --set-upstream origin ${{ env.version }}
+        env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
