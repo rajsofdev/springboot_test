@@ -38,8 +38,3 @@ jobs:
             echo "Commting the changes"
             git commit -m "Increment project version to ${{ env.new_version }}"
             echo "Pushing to the branch now ${{ github.head_ref }}"
-      - name: changing to branch develop
-        run: |
-          git checkout develop
-          git merge main --no-rebase
-          git push --set-upstream origin develop
