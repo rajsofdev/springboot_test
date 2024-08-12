@@ -8,6 +8,12 @@
 		<version>3.3.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+	<scm>
+  <connection>scm:git:git://github.com/rajsofdev/springboot_test.git</connection>
+  <developerConnection>scm:git:ssh://github.com/rajsofdev/springboot_test.git</developerConnection>
+  <url>https://github.com/rajsofdev/springboot_test.git</url>
+  <tag>HEAD</tag>
+</scm>
 	<groupId>com.example</groupId>
 	<artifactId>spring-boot-initial</artifactId>
 	<version>0.0.1</version>
