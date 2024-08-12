@@ -1,22 +1,24 @@
-name: test
+name: Semantic Release
+
 on:
   push:
     branches:
-      # Change this if your primary branch is not main
       - main
-      - develop
 
 jobs:
-  main:
+  release:
     runs-on: ubuntu-latest
-    environment:
-      name: dev #your environment name
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v3
         with:
-          persist-credentials: false
-      - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v4
+          java-version: '18'
+          distribution: 'adopt'
+      - name: Release
+        run: |
+          mvn release:prepare
+          mvn release:perform
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
