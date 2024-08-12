@@ -13,4 +13,4 @@ jobs:
         run: echo "pringint normal message"
       - name: Build and deploy
         run: |
-          mvn validate -DbumpPatch
+          mvn validate -DbumpMinor
