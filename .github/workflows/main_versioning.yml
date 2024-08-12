@@ -44,3 +44,10 @@ jobs:
           git push --set-upstream origin ${{ env.version }}
         env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+      - name: Update README.md
+        uses: github-actions-semantic-patch/patch@v1
+        with:
+          files: README.md
+          patch: |
+            s/Current Version: .*/Current Version: ${{ env.new_version }}
