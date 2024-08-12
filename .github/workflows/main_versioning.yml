@@ -3,7 +3,7 @@ name: Semantic Versioning
 on:
     push:
         branches: 
-            develop
+            main
 jobs:
   update-version:
     runs-on: ubuntu-latest
@@ -20,8 +20,8 @@ jobs:
         run: |
             current_version=${{ env.version }}
             IFS='.' read -r major minor patch <<< "$current_version"
-            new_minor=$((minor + 1))
-            new_version="${major}.${new_minor}.${patch}"
+            new_major=$((major + 1))
+            new_version="${new_major}.0.0"
             mvn versions:set -DnewVersion=$new_version -DgenerateBackupPoms=false
             echo "new_version=$new_version" >> $GITHUB_ENV
 
@@ -38,3 +38,8 @@ jobs:
             echo "Commting the changes"
             git commit -m "Increment project version to ${{ env.new_version }}"
             echo "Pushing to the branch now ${{ github.head_ref }}"
+      - name: changing to branch develop
+        run: |
+          git checkout develop
+          git merge main --no-rebase
+          git push --set-upstream origin develop
